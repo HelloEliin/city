@@ -1,0 +1,180 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+
+
+
+namespace City
+{
+
+    class City  
+    {
+
+        public string name;
+        public int degrees;
+
+        public string Name
+        {
+            get { return name; }   // Egenskap namn
+            set { name = value; }
+        }
+
+        public int Degrees
+        {
+            get { return degrees; }   // Egenskap temp
+            set { degrees = value; }
+        }
+
+        public void CityCity(string name, int degrees) 
+        {
+            this.name = name;
+            this.degrees = degrees;
+       
+        }
+
+        public override string ToString()
+        {
+            return String.Format("name: {0}. degrees: {0}", name, degrees);
+
+        }
+
+
+
+            class Program
+            {
+
+            public static void bubbleListing(List<StoreCity> cities)   // Ska sortera listan efter stad med kallast temp och skriva ut detta.
+            {
+                int max = cities.Count - 1;
+
+                for (int i = 0; i < max; i++)
+                {
+                    int left = max - 1;
+
+                    for (int j = 0; j < left; j++)
+                    {
+                        if (cities[j].degrees > cities[j + 1].degrees)  // 
+                        {
+                            var temp = cities[j];
+                            cities[j] = cities[j + 1];
+                            cities[j + 1] = temp;
+                        }
+
+                        for (int ii = 0; i < cities.Count; i++)
+                        {
+                            Console.WriteLine(cities[i]);
+                        }
+
+                    }
+
+                }
+            }
+
+
+
+        
+
+        static int LinSok(List<StoreCity> list, int key) // Söka igenom listan för en specifik temp
+            {
+
+                for (int i = 0; i < list.Count; i++)
+                {
+                    if (list[i].degrees == key)      // problem ?? 
+                    {
+                        return i;
+             
+                    }
+                  
+                    return -1;
+                 }
+            }
+        
+
+
+
+
+
+
+        static void Main(string[] args)
+            {
+
+
+
+
+
+                List<StoreCity> myList = new List<StoreCity>(); // Förvara (Cities + temp) i denna lista
+
+
+
+                for (int i = 0; i < 3; i++)
+                {
+
+                    Console.WriteLine("City's name: ");
+                    string name = Console.ReadLine();
+                    
+                    Console.WriteLine("City's temperature: ");
+                    int degrees = int.Parse(Console.ReadLine());
+
+                if (degrees >= -60 && degrees <= 60)
+                {
+                        var city = new StoreCity();
+
+                        myList.Add(new StoreCity()); // HÄÄÄÄÄE !!! Måste skapa staden, skicka in den till create city(eller?) o få den på listan?
+
+                    }
+
+
+                    else
+                {
+                   Console.WriteLine("Default. Only -60 to 60 degrees Celsius");
+                    }
+                }
+
+
+
+
+
+
+                Console.WriteLine("Search for a city with a specific degree: ");
+            string str = Console.ReadLine();
+            int key = Convert.ToInt32(str);      // key för sökningen 
+
+
+            int index = LinSok(myList, key);     // Söka efter spec temp i metoden LinSok
+
+            if (index == 1)
+            {
+                Console.WriteLine(myList[index] + "has " + key + " degrees.");
+            }
+
+            else if (index == -1)
+            {
+                Console.WriteLine("No matches found.");
+            }
+
+
+
+
+
+                bubbleListing(myList);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        }
+    }
+  }
+}
