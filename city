@@ -8,7 +8,7 @@ using System.Linq;
 namespace City
 {
 
-    class City  
+    class City
     {
 
         public string name;
@@ -26,11 +26,11 @@ namespace City
             set { degrees = value; }
         }
 
-        public void CityCity(string name, int degrees) 
+        public City(string name, int degrees)
         {
             this.name = name;
             this.degrees = degrees;
-       
+
         }
 
         public override string ToString()
@@ -41,93 +41,96 @@ namespace City
 
 
 
-            class Program
-            {
+        class Program
+        {
+            static List<City> cityList = new List<City>(); // Förvara (Cities + temp) i denna lista
 
-            public static void bubbleListing(List<StoreCity> cities)   // Ska sortera listan efter stad med kallast temp och skriva ut detta.
+
+            public static void bubblesort(List<City> list)   // Ska sortera listan efter stad med kallast temp och skriva ut detta.
             {
-                int max = cities.Count - 1;
+                int max = cityList.Count - 1;
 
                 for (int i = 0; i < max; i++)
                 {
-                    int left = max - 1;
+                    int left = max - i;
 
                     for (int j = 0; j < left; j++)
                     {
-                        if (cities[j].degrees > cities[j + 1].degrees)  // 
+                        if (cityList[j].degrees > cityList[j + 1].degrees)  // 
                         {
-                            var temp = cities[j];
-                            cities[j] = cities[j + 1];
-                            cities[j + 1] = temp;
-                        }
-
-                        for (int ii = 0; i < cities.Count; i++)
-                        {
-                            Console.WriteLine(cities[i]);
+                            var temp = cityList[j];
+                            cityList[j] = cityList[j + 1];
+                            cityList[j + 1] = temp;
                         }
 
                     }
 
-                }
-            }
-
-
-
-        
-
-        static int LinSok(List<StoreCity> list, int key) // Söka igenom listan för en specifik temp
-            {
-
-                for (int i = 0; i < list.Count; i++)
-                {
-                    if (list[i].degrees == key)      // problem ?? 
+                    for (int p = 0; i < cityList.Count; i++)
                     {
-                        return i;
-             
+                        Console.WriteLine(cityList[i].name + "with " + cityList[i].degrees + "C");
                     }
-                  
-                    return -1;
-                 }
+                }
+
+              
             }
-        
+
+
+
+
+
+            static int LinSok(int key) // Söka igenom listan för en specifik temp
+            {
+
+                for (int i = 0; i < cityList.Count; i++)
+                {
+                    if (cityList[i].degrees == key)     
+                    
+                        return i;
+
+                    }
+
+                    return -1;
+                }
+            
 
 
 
 
 
 
-        static void Main(string[] args)
+
+            static void Main(string[] args)
             {
 
 
 
 
 
-                List<StoreCity> myList = new List<StoreCity>(); // Förvara (Cities + temp) i denna lista
+                
 
 
 
-                for (int i = 0; i < 3; i++)
+                for (int i = 0; i < 4; i++)
                 {
 
                     Console.WriteLine("City's name: ");
                     string name = Console.ReadLine();
-                    
+
                     Console.WriteLine("City's temperature: ");
                     int degrees = int.Parse(Console.ReadLine());
 
-                if (degrees >= -60 && degrees <= 60)
-                {
-                        var city = new StoreCity();
+                    if (degrees >= -60 && degrees <= 60)
+                    {
+                        
 
-                        myList.Add(new StoreCity()); // HÄÄÄÄÄE !!! Måste skapa staden, skicka in den till create city(eller?) o få den på listan?
+                        cityList.Add(new City(name, degrees)); // HÄÄÄÄÄE !!! Måste skapa staden, skicka in den till create city(eller?) o få den på listan?
 
                     }
 
 
                     else
-                {
-                   Console.WriteLine("Default. Only -60 to 60 degrees Celsius");
+                    {
+                        Console.WriteLine("Default. Only -60 to 60 degrees Celsius");
                     }
                 }
 
@@ -137,44 +140,54 @@ namespace City
 
 
                 Console.WriteLine("Search for a city with a specific degree: ");
-            string str = Console.ReadLine();
-            int key = Convert.ToInt32(str);      // key för sökningen 
+                int key = int.Parse(Console.ReadLine());     // key för sökningen 
 
 
-            int index = LinSok(myList, key);     // Söka efter spec temp i metoden LinSok
+                int index = LinSok(key);
 
-            if (index == 1)
-            {
-                Console.WriteLine(myList[index] + "has " + key + " degrees.");
+                if (index == -1)
+ 
+                    {
+                        Console.WriteLine("No matches found.");// Söka efter spec temp i metoden LinSok
+                    }
+
+                else
+                {
+                    foreach (City city in cityList)
+                    {
+                        if (city.degrees == key)
+                        {
+                            Console.WriteLine(city.Name + " has the temperature of " + city.degrees + "C");
+                        }
+                    }
+                }
+
+
+
+                Console.WriteLine("Here is all the cities ranked in the coldest one first: ");
+
+
+                bubblesort(cityList);
+
+
+               
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
             }
-
-            else if (index == -1)
-            {
-                Console.WriteLine("No matches found.");
-            }
-
-
-
-
-
-                bubbleListing(myList);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         }
     }
-  }
 }
