@@ -16,19 +16,19 @@ namespace City
 
         public string Name
         {
-            get { return name; }   // Egenskap namn
+            get { return name; }   // Name of City
             set { name = value; }
         }
 
         public int Degrees
         {
-            get { return degrees; }   // Egenskap temp
+            get { return degrees; }   // Degrees of City
             set { degrees = value; }
         }
 
         public City(string name, int degrees)
         {
-            this.name = name;
+            this.name = name;        // Creates a City
             this.degrees = degrees;
 
         }
@@ -43,10 +43,10 @@ namespace City
 
         class Program
         {
-            static List<City> cityList = new List<City>();
+            static List<City> cityList = new List<City>();   // List to store all the Cities in.
 
 
-            public static void bubblesort(List<City> list)  
+            public static void bubblesort(List<City> list)  // Bubblesorts the list with the lowest temp first.
             {
                 int max = cityList.Count - 1;
 
@@ -74,7 +74,7 @@ namespace City
 
 
 
-            static int LinSok(int key) 
+            static int LinSok(int key)  // Search if a city has a special temp.
             {
 
                 for (int i = 0; i < cityList.Count; i++)
@@ -92,39 +92,78 @@ namespace City
 
 
 
-            static int binarySearch(List<City> list, int searchTemp, int first, int last)
+            static int BinarySearch(List<City> list, int searchTemp, int first, int last) // Binary search for a specific temp.
             {
                 
                 int mid = (first + last) / 2;
 
-                  if (cityList[mid].degrees == searchTemp).  // Denna lilla sak=)
+                  if (cityList[mid].degrees == searchTemp)
                 {
 
-                    return mid;      // Temp hittad
+                    return mid;      // Temp found.
+                }
+
+                else if (cityList[mid].degrees > searchTemp)
+                {
+                            return BinarySearch(cityList, first, mid -1, searchTemp);  // Look at the lower part of list.
+                        }
+
+
+                else if (last < first)
+                {
+                    return -1;  //  Not found.
                 }
 
 
-                else if (first == last)
-                    {
-                        return -1;  //  Ej funnen
-                    }
-
-
-                else if (searchTemp < cityList[mid].degrees)
-                {
-                            return binarySearch(cityList, first, mid -1, searchTemp);  // Titta på nedre delen av listan
-                        }
-
                 else
-                        {
-                            return binarySearch(cityList, mid + 1, last, searchTemp);  // Titta på övdre delen av listan
+                {
+                            return BinarySearch(cityList, mid + 1, last, searchTemp);  // Look at the higher part of list.
                         }
 
                     }
 
+
+
+            static void HighestTemp(List<City> list)   // Prints out the citys with highest temp. I just reversed my list since
+                                                      //my list is already sorted in the lowest degree. 
+            {
+                foreach (City city in cityList)         
+                {
+                    Console.WriteLine(city.Name + " with " + city.Degrees);
+                }
+                
+                
+            }
+
+            static void HighestTemperature(List<City> list)
+            {
+                // Did this one still, since my list is sorted by the highest now
+                // cityList[0] will always be the highest. Thats why I thought do a search was unessecary when I already know the answer.
+
+                Console.WriteLine("The highest temp is " + cityList[0].Name + " with " + cityList[0].Degrees + " C.");
+
+
+            }
+
+
+            static void LowestTemperature(List<City> list)
+            {
+                // Same here. Since my list is sorted by the highest now,
+                // cityList[3] will always be the city with the lowest temp.
+
+                Console.WriteLine("The lowest temp is " + cityList[3].Name + " with " + cityList[3].Degrees + " C.");
+
+
+            }
+
+
+            static int FindHigh(List<City> list)
+            {
                 
 
-
+        
+            }
+        
 
             static void Main(string[] args)
             {
@@ -145,7 +184,7 @@ namespace City
                     {
                         
 
-                        cityList.Add(new City(name, degrees)); // HÄÄÄÄÄE !!! Måste skapa staden, skicka in den till create city(eller?) o få den på listan?
+                        cityList.Add(new City(name, degrees)); 
 
                     }
 
@@ -159,23 +198,21 @@ namespace City
 
 
 
-
-
                 Console.WriteLine("Search for a city with a specific degree: ");
-                int tempKey = int.Parse(Console.ReadLine());     // key för sökningen 
+                int tempKey = int.Parse(Console.ReadLine());   // User inputs value to search for.  
 
 
-                int index = LinSok(tempKey);
+                int index = LinSok(tempKey);      // Searching for the spec temp.
 
                 if (index == -1)
  
                     {
-                        Console.WriteLine("No matches found.");// Söka efter spec temp i metoden LinSok
+                        Console.WriteLine("No matches found.");
                     }
 
                 else
                 {
-                    foreach (City city in cityList)  // Alla städer som har den sökta temperaturen skrivs ut.
+                    foreach (City city in cityList)  // All cities with the searched temp will display.
                     {
                         if (city.degrees == tempKey)
                         {
@@ -186,9 +223,9 @@ namespace City
 
 
 
-                bubblesort(cityList);   // Förblir listan sorterad?
+                bubblesort(cityList);   
 
-                Console.WriteLine("Here is all the cities ranked in the coldest one first: ");
+                Console.WriteLine("Here is all the cities ranked in the coldest one first: "); // Prints out the coldest city first.
 
                 foreach (City city in cityList)
                 {
@@ -205,7 +242,7 @@ namespace City
                 int first = 0;
                 int last = cityList.Count - 1;
 
-                int found = binarySearch(cityList, searchTemp, last, first);
+                int found = BinarySearch(cityList, searchTemp, last, first);  // Searches for the other value but in the BinaryMethod.
 
 
                 if (found == -1)
@@ -216,19 +253,25 @@ namespace City
                 {   foreach(City city in cityList)
                     {
                         if(city.degrees == searchTemp)
-                        Console.WriteLine(city.Name + "has the temperature of " + city.degrees + "C");  // Skriv ut värde hittat
+                        Console.WriteLine(city.Name + "has the temperature of " + city.degrees + "C");  
                     }
                     
                 }
 
-             
+
+                Console.WriteLine("All the cities ranked with the highest temperature first: ");
+
+                cityList.Reverse();  // My list is already sorted by the coldest temp, now I just reverse it to get the highest temp.
+
+                HighestTemp(cityList);   
 
 
 
+                Console.WriteLine("Now we will search for the highest temp");  // Here
+                HighestTemperature(cityList);
 
-
-
-
+                Console.WriteLine("The highest is " );
+                FindHigh(cityList);
 
 
 
