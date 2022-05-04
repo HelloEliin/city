@@ -43,10 +43,10 @@ namespace City
 
         class Program
         {
-            static List<City> cityList = new List<City>(); // Förvara (Cities + temp) i denna lista
+            static List<City> cityList = new List<City>();
 
 
-            public static void bubblesort(List<City> list)   // Ska sortera listan efter stad med kallast temp och skriva ut detta.
+            public static void bubblesort(List<City> list)  
             {
                 int max = cityList.Count - 1;
 
@@ -64,21 +64,17 @@ namespace City
                         }
 
                     }
+                    
 
-                    for (int p = 0; i < cityList.Count; i++)
-                    {
-                        Console.WriteLine(cityList[i].name + "with " + cityList[i].degrees + "C");
-                    }
                 }
-
-              
             }
 
+              
+            
 
 
 
-
-            static int LinSok(int key) // Söka igenom listan för en specifik temp
+            static int LinSok(int key) 
             {
 
                 for (int i = 0; i < cityList.Count; i++)
@@ -91,22 +87,48 @@ namespace City
 
                     return -1;
                 }
-            
 
 
 
 
+
+            static int binarySearch(List<City> list, int searchTemp, int first, int last)
+            {
+                
+                int mid = (first + last) / 2;
+
+                  if (cityList[mid].degrees == searchTemp).  // Denna lilla sak=)
+                {
+
+                    return mid;      // Temp hittad
+                }
+
+
+                else if (first == last)
+                    {
+                        return -1;  //  Ej funnen
+                    }
+
+
+                else if (searchTemp < cityList[mid].degrees)
+                {
+                            return binarySearch(cityList, first, mid -1, searchTemp);  // Titta på nedre delen av listan
+                        }
+
+                else
+                        {
+                            return binarySearch(cityList, mid + 1, last, searchTemp);  // Titta på övdre delen av listan
+                        }
+
+                    }
+
+                
 
 
 
             static void Main(string[] args)
             {
 
-
-
-
-
-                
 
 
 
@@ -140,10 +162,10 @@ namespace City
 
 
                 Console.WriteLine("Search for a city with a specific degree: ");
-                int key = int.Parse(Console.ReadLine());     // key för sökningen 
+                int tempKey = int.Parse(Console.ReadLine());     // key för sökningen 
 
 
-                int index = LinSok(key);
+                int index = LinSok(tempKey);
 
                 if (index == -1)
  
@@ -153,9 +175,9 @@ namespace City
 
                 else
                 {
-                    foreach (City city in cityList)
+                    foreach (City city in cityList)  // Alla städer som har den sökta temperaturen skrivs ut.
                     {
-                        if (city.degrees == key)
+                        if (city.degrees == tempKey)
                         {
                             Console.WriteLine(city.Name + " has the temperature of " + city.degrees + "C");
                         }
@@ -164,30 +186,59 @@ namespace City
 
 
 
+                bubblesort(cityList);   // Förblir listan sorterad?
+
                 Console.WriteLine("Here is all the cities ranked in the coldest one first: ");
 
+                foreach (City city in cityList)
+                {
+                   
+                        Console.WriteLine(city.Name + " has the temperature of " + city.Degrees + " C.");
+                    
+                }
 
-                bubblesort(cityList);
+              
 
+                Console.WriteLine("Search for another city with a specific degree: ");
+                int searchTemp = int.Parse(Console.ReadLine());  
 
-               
+                int first = 0;
+                int last = cityList.Count - 1;
 
-
-
-
-
-
-
-
-
-
-
-
-
+                int found = binarySearch(cityList, searchTemp, last, first);
 
 
+                if (found == -1)
+                {
+                    Console.WriteLine("No matches found.");
+                }
+                else
+                {   foreach(City city in cityList)
+                    {
+                        if(city.degrees == searchTemp)
+                        Console.WriteLine(city.Name + "has the temperature of " + city.degrees + "C");  // Skriv ut värde hittat
+                    }
+                    
+                }
 
-            }
+             
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                }
         }
     }
 }
+
